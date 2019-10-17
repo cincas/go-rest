@@ -24,7 +24,16 @@ module.exports = {
         publicPath: "/",
         compress: true,
         port: 8081,
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+        proxy: {
+            "/api": {
+                target: {
+                    host: "0.0.0.0",
+                    port: "8080",
+                    protocol: "http"
+                }
+            }
+        }
     },
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.

@@ -1,17 +1,25 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
 	redis "github.com/go-redis/redis/v7"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
 func homeLink(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome home!!")
+}
+
+// Mock mock data
+type Mock struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 func redisTest(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +39,9 @@ func redisTest(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	fmt.Fprintf(w, result.Val())
+	mock := Mock{Key: "test", Value: result.Val()}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(mock)
 }
 
 // RedisClient creates a redis client and ping it to make sure it can talk to the server.
@@ -49,5 +59,8 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homeLink)
 	router.HandleFunc("/redis", redisTest)
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":8080",
+		handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization", "Accept", "Accept-Language", "Accept-Encoding", "X-CSRF-Token"}),
+			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}),
+			handlers.AllowedOrigins([]string{"*"}))(router)))
 }
