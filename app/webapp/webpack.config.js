@@ -10,7 +10,7 @@ module.exports = {
     entry: [
         'webpack-dev-server/client?http://0.0.0.0:8081',
         'webpack/hot/dev-server',
-        './src/index'
+        './src/client/index'
     ],
     devServer: {
         headers: {
@@ -92,7 +92,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: './src/client/index.html'
         })
     ]
 };

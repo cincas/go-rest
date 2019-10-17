@@ -13,3 +13,4 @@
 
 app/__debug_bin
 app/app_debug
+app/webapp/public/index.html
