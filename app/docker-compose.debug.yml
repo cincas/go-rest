@@ -3,8 +3,8 @@ services:
   api:
     image: app-api-base
     build:
-      context: .
-      dockerfile: api/Dockerfile.debug
+      context: api
+      dockerfile: Dockerfile.debug
     env_file: 
       - ./api/.env
     ports:
@@ -22,3 +22,18 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+
+  webapp:
+    image: app-webapp-base
+    build:
+      context: webapp
+      dockerfile: Dockerfile.debug
+    env_file:
+      - ./webapp/.env
+    ports:
+      # TODO: Try use a different port, there is a socket connection issue with webpack-dev-server
+      # if it is running in a different port, e.g 3001, web app works, but hot reload will throw CONNECTION_REFUSED error 
+      # because it still try to connect with 3001
+      - "8081:8081"
+    volumes:
+      - ./webapp:/usr/src/webapp

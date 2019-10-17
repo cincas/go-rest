@@ -1,0 +1,15 @@
+# Builder
+FROM node:12.2.0-alpine AS builder
+RUN apk --no-cache add python make g++
+COPY ./package*.json ./
+RUN npm install --silent
+RUN npm install react-scripts -g --silent
+
+# Actual build
+FROM node:12.2.0-alpine
+ENV PATH /webapp/node_modules/.bin:$PATH
+WORKDIR /usr/src/webapp
+COPY --from=builder node_modules node_modules
+COPY ./public .
+
+CMD ["yarn", "start"]

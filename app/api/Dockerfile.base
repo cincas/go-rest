@@ -7,7 +7,7 @@ ENV GO111MODULE=on
 # Set working directory in container
 WORKDIR /go/src/api
 # Copy local files to working directory
-COPY ./api/src /go/src/api
+COPY ./src /go/src/api
 # Download dependencies
 RUN go mod download
 
@@ -17,8 +17,5 @@ RUN go get -d -v ./...
 RUN go install -v ./...
 # Build app
 RUN go build -o app-api .
-
-EXPOSE 3000
-EXPOSE 8080
 
 CMD ["./app-api"]
