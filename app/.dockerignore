@@ -1,0 +1,5 @@
+.git
+app_debug
+docker-compose**.yml
+Dockerfile*
+.dockerignore

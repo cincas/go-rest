@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  api:
+    image: app-api-base
+    build:
+      context: .
+      dockerfile: api/Dockerfile.debug
+    env_file: 
+      - ./api/.env
+    ports:
+        - "3000:3000"
+        - "2345:2345"
+        - "8080:8080"
+        - "5001:5001"
+    security_opt:
+        - "seccomp:unconfined"
+    # Disable dlv for now 
+    # command: /go/bin/dlv debug --headless --log --listen=:2345 --api-version=2
+    volumes:
+        - ./api/src:/go/src/api
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"

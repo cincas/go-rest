@@ -1,0 +1,28 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+server:
+  status: true
+  open: false
+  port: 5001
+  host: localhost
+schema:
+- name: app-api
+  path: .
+  commands:
+    install:
+      status: true
+      method: go build -o app_api_debug .
+    run:
+      status: true
+      method: ./app_api_debug
+  watcher:
+    extensions:
+    - go
+    paths:
+    - /
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor
