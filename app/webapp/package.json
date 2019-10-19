@@ -14,8 +14,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "startdev": "webpack-dev-server --mode development --hot --progress --colors",
-    "build-dev": "webpack --mode development"
+    "dev:start": "webpack-dev-server --hot --progress --colors --inline --mode development",
+    "dev:build-server": "webpack --mode development --config webpack.server.js",
+    "dev:build-app": "webpack --mode development --config webpack.config.js",
+    "dev:build": "npm-run-all --parallel dev:build-*"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -33,6 +35,7 @@
     ]
   },
   "devDependencies": {
+    "@types/express": "^4.17.1",
     "@types/jest": "24.0.19",
     "@types/node": "12.11.1",
     "@types/react": "16.9.9",
@@ -41,11 +44,14 @@
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "ignore-loader": "^0.1.2",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.0.0",
     "typescript": "3.6.4",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.2"
+    "webpack-dev-server": "^3.8.2",
+    "webpack-node-externals": "^1.7.2",
+    "yarn-run-all": "^3.1.1"
   }
 }

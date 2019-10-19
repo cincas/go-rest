@@ -2,13 +2,15 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const isProduction = typeof NODE_ENV !== 'undefined' && NODE_ENV === 'production';
 const mode = isProduction ? 'production' : 'development';
-const DIST_DIR = path.join(__dirname, "/public")
+const DIST_DIR = path.join(__dirname, "/public");
+
 module.exports = {
+    target: 'web',
     mode: isProduction ? "production" : "development",
     // Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",
     entry: [
-        'webpack-dev-server/client?http://0.0.0.0:8081',
+        'webpack-dev-server/client?http://localhost:8081',
         'webpack/hot/dev-server',
         './src/client/index'
     ],
@@ -21,10 +23,9 @@ module.exports = {
             DIST_DIR,
             path.resolve(__dirname, "node_modules")
         ],
-        publicPath: "/",
         compress: true,
         port: 8081,
-        host: '0.0.0.0',
+        host: 'localhost',
         proxy: {
             "/api": {
                 target: {
@@ -41,7 +42,8 @@ module.exports = {
     },
     output: {
         path: DIST_DIR,
-        filename: "bundle.min.js"
+        filename: "bundle.min.js",
+        libraryTarget: 'umd'
     },
     module: {
         rules: [
@@ -86,10 +88,10 @@ module.exports = {
     // assume a corresponding global variable exists and use that instead.
     // This is important because it allows us to avoid bundling all of our
     // dependencies, which allows browsers to cache those libraries between builds.
-    externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
-    },
+    externals: [
+        { react: 'React' },
+        { 'react-dom': 'ReactDOM' }
+    ],
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/client/index.html'

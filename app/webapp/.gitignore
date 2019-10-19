@@ -21,5 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-public/bundle.min.js
-public/bundle.min.js.map
+public/*.min.js
+public/*.min.js.map
+server-build/*.min.js
+server-build/*.min.js.map

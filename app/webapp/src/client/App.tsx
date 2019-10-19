@@ -1,7 +1,7 @@
 import React from 'react';
 import { RESTAPI } from "./components/Sample";
-import logo from './logo.svg';
-import './App.css';
+import logo from './assets/logo.svg';
+import './assets/App.css';
 
 const App: React.FC = () => {
   return (
