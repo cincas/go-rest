@@ -2,4 +2,4 @@ FROM app-webapp-base:latest
 COPY yarn.lock .
 COPY package*.json ./
 RUN yarn install
-# CMD ["yarn", "startdev"]
+CMD ["yarn", "dev"]

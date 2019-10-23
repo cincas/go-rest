@@ -34,7 +34,7 @@ services:
       # TODO: Try use a different port, there is a socket connection issue with webpack-dev-server
       # if it is running in a different port, e.g 3001, web app works, but hot reload will throw CONNECTION_REFUSED error 
       # because it still try to connect with 3001
-      - "8081:8081"
+      - "8081:3000"
     volumes:
       - ./webapp:/usr/src/webapp
     links:
