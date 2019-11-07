@@ -1,6 +1,6 @@
 import Header from "./Header";
 import * as React from "react";
-import { NextPage } from "next";
+import { NextPage, NextPageContext } from "next";
 
 const layoutStyle = {
     margin: 20,
@@ -13,23 +13,25 @@ type LayoutProps = {
     title: string
 };
 
-// Element
-const Layout: React.FunctionComponent<LayoutProps> = (props) => (
-    <div style={layoutStyle}>
-        <Header />
-        {props.children}
-    </div>
-);
-
 // High order component
 const AppLayout = (Page: React.FunctionComponent | NextPage<any>) =>
     class AppLayoutComponent extends React.Component {
+        static async getInitialProps(ctx: NextPageContext) {
+            let componentProps = {}
+            let pageIntialProps = (Page as NextPage<any>).getInitialProps;
+            if (pageIntialProps != undefined) {
+                componentProps = await pageIntialProps(ctx)
+            }
+            return {
+                ...componentProps
+            }
+        }
         render() {
             return (
                 <div style={layoutStyle}>
                     <Header />
                     <div className="page-content">
-                        <Page />
+                        <Page {...this.props} />
                     </div>
                 </div>
             )
