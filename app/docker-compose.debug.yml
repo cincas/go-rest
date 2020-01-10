@@ -10,7 +10,7 @@ services:
     ports:
         - "3000:3000"
         - "2345:2345"
-        - "8080:8080"
+        - "8180:8080"
         - "5001:5001"
     security_opt:
         - "seccomp:unconfined"

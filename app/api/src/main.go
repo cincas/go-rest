@@ -22,6 +22,12 @@ type Mock struct {
 	Value string `json:"value"`
 }
 
+func verifyPhoneNumber(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	mock := Mock{Key: "test", Value: "test"}
+	json.NewEncoder(w).Encode(mock)
+}
+
 func redisTest(w http.ResponseWriter, r *http.Request) {
 	hostname := os.Getenv("REDIS_SERVICE_NAME")
 	client, err := RedisClient(hostname)
@@ -59,6 +65,7 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homeLink)
 	router.HandleFunc("/redis", redisTest)
+	router.HandleFunc("/presentation/service/api/v2/verify/phoneNumber", verifyPhoneNumber)
 	log.Fatal(http.ListenAndServe(":8080",
 		handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization", "Accept", "Accept-Language", "Accept-Encoding", "X-CSRF-Token"}),
 			handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}),
